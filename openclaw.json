@@ -24,7 +24,8 @@
   },
   "agents": {
     "defaults": {
-      "model": { "primary": "litellm/gemini-3.1-pro" }
+      "model": { "primary": "litellm/gemini-3.1-pro" },
+      "skipBootstrap": true
     }
   }
 }
