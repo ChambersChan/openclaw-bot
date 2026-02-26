@@ -29,9 +29,9 @@ docker run -d \
   --name openclaw-discord-bot \
   -e DISCORD_TOKEN=your_discord_token \
   -e LITELLM_API_KEY=your_api_key \
-  -v ~/vika/sandagent:/workspace/sandagent \
-  -v ~/vika/kapps:/workspace/kapps \
-  -v $(pwd)/.openclaw:/workspace \
+  -v /path/to/project1:/workspace/project1 \
+  -v /path/to/project2:/workspace/project2 \
+  -v $(pwd)/.data:/root/.openclaw \
   openclaw-discord-bot:latest
 ```
 
@@ -39,11 +39,8 @@ docker run -d \
 
 | 主机路径 | 容器路径 | 说明 |
 |----------|----------|------|
-| `~/vika/sandagent` | `/workspace/sandagent` | sandagent 项目目录 |
-| `~/vika/kapps` | `/workspace/kapps` | kapps 项目目录 |
-| `./openclaw.json` | `/root/.openclaw/openclaw.json` | OpenClaw 配置文件 |
-| `./.openclaw` | `/root/.openclaw/workspace` | OpenClaw 工作区 (AGENTS.md, SOUL.md, memory/ 等) |
-| `./openclaw-agents` | `/root/.openclaw/agents` | OpenClaw sessions (聊天历史) |
+| `/path/to/project` | `/workspace/project` | 项目目录 (根据需要添加) |
+| `./.data` | `/root/.openclaw` | OpenClaw 数据目录 |
 
 ### 使用 Docker Compose
 
@@ -142,38 +139,27 @@ docker rm -f openclaw-discord-bot
 ## 目录结构
 
 ```
-zoe-claw/
+openclaw-discord-bot/
 ├── index.js              # 入口文件
+├── start.sh              # 容器启动脚本
 ├── package.json          # 依赖配置
 ├── Dockerfile            # Docker 构建文件
-├── docker-compose.yml    # Docker Compose 配置
-├── openclaw.json         # OpenClaw 配置 (workspace: /workspace)
-└── .openclaw/            # OpenClaw 工作区 (挂载到 /workspace)
-    ├── AGENTS.md         # 智能体操作指南
-    ├── SOUL.md           # 人设、语气和边界
-    ├── USER.md           # 用户信息
-    ├── IDENTITY.md       # 智能体身份
-    ├── TOOLS.md          # 工具说明
-    ├── HEARTBEAT.md      # 心跳检查清单
-    ├── memory/           # 记忆日志
-    └── skills/           # 技能模块
-```
-
-**挂载的项目目录:**
-
-```
-~/vika/
-├── sandagent/            # 挂载到 /workspace/sandagent
-└── kapps/                # 挂载到 /workspace/kapps
+├── docker-compose.example.yml  # Docker Compose 模板
+├── .env.example          # 环境变量模板
+├── openclaw.json         # OpenClaw 配置模板
+└── .openclaw/            # OpenClaw 工作区模板
+    ├── AGENTS.md
+    ├── SOUL.md
+    ├── USER.md
+    ├── IDENTITY.md
+    ├── TOOLS.md
+    └── HEARTBEAT.md
 ```
 
 **容器内工作区结构:**
 
 ```
 /workspace/               # OpenClaw cwd
-├── AGENTS.md
-├── SOUL.md
-├── ...
-├── sandagent/            # 项目目录
-└── kapps/                # 项目目录
+├── project1/             # 项目目录
+└── project2/             # 项目目录
 ```

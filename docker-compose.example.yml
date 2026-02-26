@@ -1,8 +1,9 @@
+version: '3.8'
 services:
-  zoe-claw:
+  openclaw-discord-bot:
     build: .
-    image: zoe-claw:latest
-    container_name: zoe-claw
+    image: openclaw-discord-bot:latest
+    container_name: openclaw-discord-bot
     restart: unless-stopped
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
