@@ -22,6 +22,10 @@
 docker build -t openclaw-discord-bot:latest .
 ```
 
+### 准备工作
+
+查阅 `.openclaw/` 目录下的文件，对应调整自身定位，如自定义 IDENTITY.md 名称、更新 USER.md 项目信息和负责事项等
+
 ### 运行容器
 
 ```bash
