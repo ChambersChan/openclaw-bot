@@ -155,6 +155,65 @@ docker rm -f openclaw-discord-bot
 2. 创建新应用
 3. 进入 Bot 页面，创建 Bot
 4. 复制 Token
+5. **重要**: 在 Bot 页面开启 "Message Content Intent" 选项
+
+## Discord 配置说明
+
+### 用户授权 (allowFrom)
+
+Discord 斜杠命令需要用户授权。需要在两个地方配置 `allowFrom`：
+
+1. `channels.discord.allowFrom` - 消息处理授权
+2. `commands.allowFrom.discord` - 斜杠命令授权
+
+```json
+{
+  "channels": {
+    "discord": {
+      "allowFrom": ["用户Discord ID"]
+    }
+  },
+  "commands": {
+    "allowFrom": {
+      "discord": ["用户Discord ID"]
+    }
+  }
+}
+```
+
+### 获取 Discord 用户 ID
+
+1. Discord 设置 → 高级 → 开启 "开发者模式"
+2. 右键点击用户头像 → "复制用户 ID"
+
+### 添加多用户
+
+```json
+"allowFrom": ["用户ID1", "用户ID2", "用户ID3"]
+```
+
+### 触发方式 (mentionPatterns)
+
+Bot 只在消息包含指定关键词时响应：
+
+```json
+{
+  "messages": {
+    "groupChat": {
+      "mentionPatterns": ["@zoe-claw", "zoe-claw"]
+    }
+  }
+}
+```
+
+### 其他 Discord 配置
+
+| 配置项 | 说明 | 可选值 |
+|--------|------|--------|
+| `streaming` | 流式回复模式 | `"off"`, `"partial"`, `"block"` |
+| `ackReaction` | 处理时的表情反应 | emoji，如 `"👀"` |
+| `replyToMode` | 回复模式 | `"off"`, `"first"`, `"all"` |
+| `groupPolicy` | 群组访问策略 | `"open"`, `"allowlist"` |
 
 ## 目录结构
 
