@@ -1,0 +1,13 @@
+services:
+  zoe-claw:
+    build: .
+    image: zoe-claw:latest
+    container_name: zoe-claw
+    restart: unless-stopped
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - LITELLM_API_KEY=${LITELLM_API_KEY}
+    volumes:
+      # 项目目录 (根据需要添加)
+      # - /path/to/your/project:/workspace/project
+      - ./.data:/root/.openclaw
