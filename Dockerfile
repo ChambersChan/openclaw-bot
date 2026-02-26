@@ -3,9 +3,11 @@ FROM node:22-slim AS builder
 
 WORKDIR /workspace
 
+# 换国内源
+RUN sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources
+
 # 安装编译依赖（临时）
-RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources \
-    && apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     build-essential \
     python3 \
     git \
@@ -21,36 +23,35 @@ RUN npm install --production \
     && npm cache clean --force
 
 COPY index.js ./
-COPY openclaw.json /root/.openclaw/openclaw.json
-# 复制技能到 openclaw 配置目录
-COPY .openclaw/skills /root/.openclaw/skills
-# 复制工作区文件到 agent workspace
-COPY .openclaw/SOUL.md /root/.openclaw/workspace/SOUL.md
-COPY .openclaw/AGENTS.md /root/.openclaw/workspace/AGENTS.md
-COPY .openclaw/USER.md /root/.openclaw/workspace/USER.md
-COPY .openclaw/IDENTITY.md /root/.openclaw/workspace/IDENTITY.md
-COPY .openclaw/TOOLS.md /root/.openclaw/workspace/TOOLS.md
 
 # 阶段2: 运行阶段 - 最小化镜像
 FROM node:22-slim
 
 WORKDIR /workspace
 
+# 换国内源
+RUN sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources
+
 # 安装 git（技能需要）
 RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 
-# 创建 openclaw 配置目录
-RUN mkdir -p /root/.openclaw/skills /root/.openclaw/workspace/memory
+# 创建目录
+RUN mkdir -p /root/.openclaw/workspace
 
 # 只复制运行时需要的文件
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /workspace/node_modules ./node_modules
 COPY --from=builder /workspace/index.js ./
-COPY --from=builder /root/.openclaw/openclaw.json /root/.openclaw/openclaw.json
-COPY --from=builder /root/.openclaw/skills /root/.openclaw/skills
-COPY --from=builder /root/.openclaw/workspace /root/.openclaw/workspace
+
+# 复制配置模板（首次启动时使用）
+COPY openclaw.json /template/.openclaw/openclaw.json
+COPY .openclaw /template/.openclaw/workspace
+
+# 复制启动脚本
+COPY start.sh ./
+RUN chmod +x start.sh
 
 # 启动
-CMD ["node", "index.js"]
+CMD ["./start.sh"]
