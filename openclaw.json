@@ -2,7 +2,22 @@
   "gateway": {
     "mode": "local"
   },
-  "models": {
+  "channels": {
+    "discord": {
+      "token": "${DISCORD_BOT_TOKEN}",
+      "enabled": true,
+      "groupPolicy": "open",
+      "streaming": "partial",
+      "ackReaction": "👀",
+      "replyToMode": "first"
+    }
+  },
+  "messages": {
+    "groupChat": {
+      "mentionPatterns": ["@zoe-claw", "zoe-claw"]
+    }
+  },
+    "models": {
     "providers": {
       "litellm": {
         "baseUrl": "https://llm.bika.ltd",
