@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker build:*)",
+      "Bash(openclaw --help:*)",
+      "Bash(openclaw config --help:*)",
+      "Bash(openclaw models --help:*)",
+      "Bash(openclaw agent --help:*)",
+      "Bash(docker rm:*)",
+      "Bash(docker:*)",
+      "Bash(openclaw:*)",
+      "WebSearch",
+      "Bash(ls:*)"
+    ]
+  }
+}
