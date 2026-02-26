@@ -13,6 +13,10 @@
 |--------|------|------|
 | `DISCORD_TOKEN` | Discord Bot Token | 是 |
 | `LITELLM_API_KEY` | LiteLLM API Key | 是 |
+| `X_API_KEY` | X (Twitter) API Key | 否 |
+| `X_API_SECRET` | X (Twitter) API Secret | 否 |
+| `X_ACCESS_TOKEN` | X (Twitter) Access Token | 否 |
+| `X_ACCESS_SECRET` | X (Twitter) Access Token Secret | 否 |
 
 ## 使用 Docker 镜像
 
@@ -33,6 +37,10 @@ docker run -d \
   --name openclaw-discord-bot \
   -e DISCORD_TOKEN=your_discord_token \
   -e LITELLM_API_KEY=your_api_key \
+  -e X_API_KEY=your_x_api_key \
+  -e X_API_SECRET=your_x_api_secret \
+  -e X_ACCESS_TOKEN=your_x_access_token \
+  -e X_ACCESS_SECRET=your_x_access_secret \
   -v /path/to/project1:/workspace/project1 \
   -v /path/to/project2:/workspace/project2 \
   -v $(pwd)/.data:/root/.openclaw \
@@ -67,6 +75,10 @@ services:
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
       - LITELLM_API_KEY=${LITELLM_API_KEY}
+      - X_API_KEY=${X_API_KEY}
+      - X_API_SECRET=${X_API_SECRET}
+      - X_ACCESS_TOKEN=${X_ACCESS_TOKEN}
+      - X_ACCESS_SECRET=${X_ACCESS_SECRET}
     volumes:
       # 项目目录 (根据需要添加)
       # - /path/to/your/project:/workspace/project
@@ -114,6 +126,10 @@ source .env && node index.js
 # 方式二：手动设置环境变量
 export DISCORD_TOKEN=your_discord_token
 export LITELLM_API_KEY=your_api_key
+export X_API_KEY=your_x_api_key
+export X_API_SECRET=your_x_api_secret
+export X_ACCESS_TOKEN=your_x_access_token
+export X_ACCESS_SECRET=your_x_access_secret
 node index.js
 ```
 
