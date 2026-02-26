@@ -1,4 +1,7 @@
 {
+  "gateway": {
+    "mode": "local"
+  },
   "models": {
     "providers": {
       "litellm": {
@@ -26,6 +29,16 @@
     "defaults": {
       "model": { "primary": "litellm/gemini-3.1-pro" },
       "skipBootstrap": true
+    }
+  },
+  "cron": {
+    "enabled": true,
+    "store": "~/.openclaw/cron/jobs.json",
+    "maxConcurrentRuns": 3,
+    "sessionRetention": "24h",
+    "runLog": {
+      "maxBytes": "2mb",
+      "keepLines": 500
     }
   }
 }

@@ -20,4 +20,12 @@
 
 - `/workspace` - 主工作目录
 - `/workspace/sandagent` - sandagent 项目
-- `/workspace/kapps` - kapps 项目
+- `/workspace/kapps/apps/buda` - buda 项目
+
+## 查询工作进度时
+
+当用户问"今天改了什么"或类似问题时：
+
+1. 先切换到对应项目目录
+2. 执行 `git log --since="1 day ago" --oneline` 查看今日提交
+3. 分别检查 sandagent 和 kapps/apps/buda 两个项目
