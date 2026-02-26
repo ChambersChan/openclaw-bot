@@ -95,12 +95,6 @@ docker-compose up -d --build
 
 ## 本地开发
 
-### 安装依赖
-
-```bash
-npm install
-```
-
 ### 安装 OpenClaw (全局)
 
 ```bash
@@ -120,17 +114,7 @@ vim .env
 ### 启动 Bot
 
 ```bash
-# 方式一：使用环境变量文件
-source .env && node index.js
-
-# 方式二：手动设置环境变量
-export DISCORD_TOKEN=your_discord_token
-export LITELLM_API_KEY=your_api_key
-export X_API_KEY=your_x_api_key
-export X_API_SECRET=your_x_api_secret
-export X_ACCESS_TOKEN=your_x_access_token
-export X_ACCESS_SECRET=your_x_access_secret
-node index.js
+openclaw gateway run
 ```
 
 ## 常用命令
@@ -219,20 +203,18 @@ Bot 只在消息包含指定关键词时响应：
 
 ```
 openclaw-discord-bot/
-├── index.js              # 入口文件
 ├── start.sh              # 容器启动脚本
-├── package.json          # 依赖配置
 ├── Dockerfile            # Docker 构建文件
-├── docker-compose.example.yml  # Docker Compose 模板
+├── docker-compose.yml    # Docker Compose 配置
 ├── .env.example          # 环境变量模板
-├── openclaw.json         # OpenClaw 配置模板
+├── openclaw.json         # OpenClaw 配置
 └── .openclaw/            # OpenClaw 工作区模板
     ├── AGENTS.md
     ├── SOUL.md
     ├── USER.md
     ├── IDENTITY.md
     ├── TOOLS.md
-    └── HEARTBEAT.md
+    └── skills/           # 自定义技能
 ```
 
 **容器内工作区结构:**
