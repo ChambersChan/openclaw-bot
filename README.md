@@ -184,7 +184,7 @@ Bot 只在消息包含指定关键词时响应：
 {
   "messages": {
     "groupChat": {
-      "mentionPatterns": ["@zoe-claw", "zoe-claw"]
+      "mentionPatterns": ["@your-bot-name", "your-bot-name"]
     }
   }
 }
