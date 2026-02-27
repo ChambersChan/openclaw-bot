@@ -12,6 +12,8 @@ services:
       - X_API_SECRET=${X_API_SECRET}
       - X_ACCESS_TOKEN=${X_ACCESS_TOKEN}
       - X_ACCESS_SECRET=${X_ACCESS_SECRET}
+      - GA_PROPERTY_ID=${GA_PROPERTY_ID}
+      - GA_CREDENTIALS_BASE64=${GA_CREDENTIALS_BASE64}
     volumes:
       # 项目目录 (根据需要添加)
       # - /path/to/your/project:/workspace/project

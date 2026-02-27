@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# 设置 NODE_PATH 以便找到全局安装的模块
+export NODE_PATH=/usr/local/lib/node_modules
+
 # 创建目录
 mkdir -p /root/.openclaw/workspace/skills
 mkdir -p /root/.openclaw/cron
