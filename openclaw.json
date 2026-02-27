@@ -10,7 +10,10 @@
       "allowFrom": ["978510023904854047"],
       "streaming": "partial",
       "ackReaction": "👀",
-      "replyToMode": "first"
+      "replyToMode": "first",
+      "execApprovals": {
+        "enabled": false
+      }
     }
   },
   "messages": {
@@ -48,8 +51,17 @@
   },
   "agents": {
     "defaults": {
-      "model": { "primary": "litellm/gemini-3-flash" },
+      "model": { "primary": "litellm/gemini-3.1-pro" },
       "skipBootstrap": true
+    }
+  },
+  "tools": {
+    "allow": ["*"],
+    "elevated": {
+      "enabled": false,
+      "allowFrom": {
+        "discord": ["978510023904854047"]
+      }
     }
   },
   "cron": {

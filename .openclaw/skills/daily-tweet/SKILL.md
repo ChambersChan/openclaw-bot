@@ -23,6 +23,9 @@ inputs:
   hashtag:
     description: Hashtag for tweet
     default: ""
+  discord_channel:
+    description: Discord channel ID to send public notifications
+    default: ""
 ---
 
 # Daily Tweet
@@ -66,16 +69,72 @@ git log {{remote}}/{{branch}} --author="{{git_author}}" --since="1 day ago" --on
 
 ### 4. Generate Tweet Content
 
+**CRITICAL: X has a strict 280 character limit. Your tweet MUST be under 280 characters or it will fail with 403 error.**
+
+**WRITE FROM PRODUCT PERSPECTIVE:**
+- Focus on USER BENEFITS, not technical details
+- Say what users can DO, not what code changed
+- Be exciting and engaging
+
+**Bad examples (too technical):**
+- "Refactored sandock and bumped version" ❌
+- "Updated API endpoints for better performance" ❌
+- "Fixed bug in session handling" ❌
+
+**Good examples (product-focused):**
+- "Ship AI agents to production faster with our new deployment tools" ✅
+- "Your coding agents just got smarter - now with better memory" ✅
+- "Build AI-powered features in minutes, not weeks" ✅
+
+**STRICT FORMAT - Use this exact structure:**
+```
+Update: [One sentence summary] 🚀
+
+Today's progress:
+- [commit 1 - short description]
+- [commit 2 - short description]
+- [commit 3 - short description]
+
+{{hashtag}}
+{{site_url}}
+```
+
 **Case A: New commits found**
-- Summarize today's commits
-- Generate a concise tweet (MAX 280 chars)
-- Format: Brief intro + key changes + hashtag + site_url
+- Start with "Update: [summary] 🚀"
+- Add "Today's progress:" section
+- List up to 3-4 key commits as bullet points with "-"
+- End with hashtag and site_url (if configured)
+- Total MUST be under 280 characters including line breaks
+- Use \n for line breaks
 
 **Case B: No new commits + Weekday (Mon-Fri)**
-- Tweet: "Under active development. Stay tuned for updates! {{hashtag}}"
+- Tweet:
+```
+Update: Building something great! 🚀
+
+Stay tuned for what's coming next.
+
+{{hashtag}}
+{{site_url}}
+```
 
 **Case C: No new commits + Weekend**
 - Skip posting, report "Weekend break" to Discord
+
+**VALIDATION STEP - REQUIRED:**
+Before posting, use this command to count characters:
+```bash
+echo -n "Your tweet content here" | wc -c
+```
+If the count is > 280, you MUST shorten by removing less important commits.
+
+**FORMATTING RULES:**
+- Use \n for line breaks in x-post command
+- Start with "Update:" and add 🚀 emoji
+- Use "-" for bullet points under "Today's progress:"
+- Hashtag on its own line
+- site_url on its own line at the end (if configured)
+- Keep each bullet point short (under 40 chars)
 
 ### 5. Post to X
 
@@ -96,31 +155,36 @@ x-post "Your tweet content here (max 280 chars)"
 
 ### 6. Report to Discord
 
-**IMPORTANT:** Always send feedback to Discord after posting (success or failure).
+**IMPORTANT:** After posting, send a PUBLIC message to the Discord channel @mentioning the user.
 
-Use messaging tool to send to Discord:
+**Use messaging tool with channel target:**
+- Target: `channel:{{discord_channel}}` (use the discord_channel input)
+- This sends a public message visible to everyone
 
 **Success message:**
 ```
-Daily tweet posted successfully!
+<@[user_id]> Daily tweet posted!
 
 Tweet: [tweet URL]
-Content: [brief summary of what was posted]
-Commits: [number of commits included]
+Commits: [number of commits]
 ```
 
 **Failure message:**
 ```
-Failed to post daily tweet.
+<@[user_id]> Failed to post daily tweet.
 
 Error: [error message]
-Content attempted: [what you tried to post]
 ```
 
 **Skip message (weekend):**
 ```
-Skipped daily tweet (weekend break).
+<@[user_id]> Skipped daily tweet (weekend break).
 ```
+
+**Note:**
+- Use `channel:{{discord_channel}}` as the target (e.g., `channel:978510023904854047`)
+- Use `<@[user_id]>` format to @mention the user (e.g., `<@978510023904854047>`)
+- If discord_channel is not set, skip sending the public notification
 
 ### 7. Save Today's Log
 
@@ -130,18 +194,29 @@ git log {{remote}}/{{branch}} --author="{{git_author}}" --since="1 day ago" --on
 
 ## Tweet Guidelines
 
-- Maximum 280 characters
+**HARD LIMIT: 280 characters maximum (including line breaks). Tweets exceeding this WILL FAIL.**
+
 - Use English
-- Include `{{hashtag}}` and `{{site_url}}` if provided
-- Be concise and engaging
-- Focus on user-facing changes when possible
+- Start with "Update:" and 🚀 emoji
+- Use bullet points (-) for commits under "Today's progress:"
+- Keep each bullet short (under 40 chars)
+- Hashtag on its own line at the end
+- site_url on its own line if configured
+- If too long, remove less important commits
 
 ## Example Tweets
 
+**With commits:**
 ```bash
-x-post "Update: Refactored ID handling for improved architecture. Building towards better code injection! #Project https://example.com/"
+x-post $'Update: Continuing active development! 🚀\n\nToday\'s progress:\n- Added Discord integration\n- Fixed tweet formatting\n- Upgraded to gemini-3.1-pro\n\n#OpenClaw\nhttps://openclaw.ai'
 ```
 
+**No new commits (weekday):**
 ```bash
-x-post "Under active development. Stay tuned for exciting updates! #Project https://example.com/"
+x-post $'Update: Building something great! 🚀\n\nStay tuned for what\'s coming next.\n\n#OpenClaw\nhttps://openclaw.ai'
+```
+
+**Without site_url:**
+```bash
+x-post $'Update: New features shipped! 🚀\n\nToday\'s progress:\n- Added X API integration\n- Improved error handling\n\n#BuildInPublic'
 ```

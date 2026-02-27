@@ -15,18 +15,20 @@ for skill in /template/.openclaw/workspace/skills/*; do
   [ -e "$skill" ] && cp -r "$skill" /root/.openclaw/workspace/skills/
 done
 
-# 启动 Gateway（后台运行）
-nohup openclaw gateway run --allow-unconfigured > /tmp/gateway.log 2>&1 &
+# 为 x-post 创建命令链接
+if [ -f /root/.openclaw/workspace/skills/x-api/scripts/x-post.mjs ]; then
+  ln -sf /root/.openclaw/workspace/skills/x-api/scripts/x-post.mjs /usr/local/bin/x-post
+  chmod +x /root/.openclaw/workspace/skills/x-api/scripts/x-post.mjs
+fi
 
-# 等待 Gateway 就绪
-echo "Waiting for Gateway to be ready..."
-for i in {1..30}; do
-  if openclaw cron list >/dev/null 2>&1; then
-    echo "Gateway is ready!"
-    break
+# 为自定义技能创建符号链接
+mkdir -p /usr/local/lib/node_modules/openclaw/skills
+for skill in /root/.openclaw/workspace/skills/*; do
+  if [ -d "$skill" ]; then
+    skill_name=$(basename "$skill")
+    ln -sf "$skill" /usr/local/lib/node_modules/openclaw/skills/"$skill_name"
   fi
-  sleep 1
 done
 
-# 启动 bot
-exec node index.js
+# 启动 Gateway（前台运行，自动连接配置的 channels）
+exec openclaw gateway run --allow-unconfigured

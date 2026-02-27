@@ -17,13 +17,6 @@ RUN apt-get update && apt-get install -y \
 RUN npm install -g openclaw \
     && npm cache clean --force
 
-# 安装 bot 依赖
-COPY package*.json ./
-RUN npm install --production \
-    && npm cache clean --force
-
-COPY index.js ./
-
 # 阶段2: 运行阶段 - 最小化镜像
 FROM node:22-slim
 
@@ -42,8 +35,6 @@ RUN mkdir -p /root/.openclaw/workspace
 # 只复制运行时需要的文件
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=builder /usr/local/bin /usr/local/bin
-COPY --from=builder /workspace/node_modules ./node_modules
-COPY --from=builder /workspace/index.js ./
 
 # 复制配置模板（首次启动时使用）
 COPY openclaw.json /template/.openclaw/openclaw.json
