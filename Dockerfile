@@ -29,10 +29,6 @@ RUN sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debia
 RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 
-# 安装 Google Analytics Data API 客户端
-RUN npm install -g @google-analytics/data \
-    && npm cache clean --force
-
 # 创建目录
 RUN mkdir -p /root/.openclaw/workspace
 

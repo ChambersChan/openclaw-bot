@@ -1,0 +1,9 @@
+{
+  "name": "ga-analytics",
+  "version": "1.0.0",
+  "description": "Google Analytics data fetcher",
+  "type": "commonjs",
+  "dependencies": {
+    "@google-analytics/data": "^5.2.0"
+  }
+}

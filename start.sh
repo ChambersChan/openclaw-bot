@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# 设置 NODE_PATH 以便找到全局安装的模块
-export NODE_PATH=/usr/local/lib/node_modules
-
 # 创建目录
 mkdir -p /root/.openclaw/workspace/skills
 mkdir -p /root/.openclaw/cron
@@ -16,6 +13,14 @@ cp /template/.openclaw/workspace/*.md /root/.openclaw/workspace/
 # 只复制模板里已有的 skills（不删除运行时新建的）
 for skill in /template/.openclaw/workspace/skills/*; do
   [ -e "$skill" ] && cp -r "$skill" /root/.openclaw/workspace/skills/
+done
+
+# 安装技能依赖
+for skill in /root/.openclaw/workspace/skills/*; do
+  if [ -f "$skill/package.json" ]; then
+    echo "Installing dependencies for $(basename $skill)..."
+    cd "$skill" && npm install --production && cd /workspace
+  fi
 done
 
 # 为 x-post 创建命令链接

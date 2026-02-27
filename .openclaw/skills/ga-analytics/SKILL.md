@@ -41,7 +41,7 @@ Fetch Google Analytics 4 data, compare with 7 days ago, and generate growth insi
 Run the analytics script:
 
 ```bash
-NODE_PATH=/usr/local/lib/node_modules node /root/.openclaw/workspace/skills/ga-analytics/scripts/fetch-ga.cjs
+node /root/.openclaw/workspace/skills/ga-analytics/scripts/fetch-ga.cjs
 ```
 
 The script will output JSON with:
