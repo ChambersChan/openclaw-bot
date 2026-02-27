@@ -15,7 +15,7 @@
 
 | 变量名 | 说明 | 必填 |
 |--------|------|------|
-| `DISCORD_TOKEN` | Discord Bot Token | 是 |
+| `DISCORD_BOT_TOKEN` | Discord Bot Token | 是 |
 | `LITELLM_API_KEY` | LiteLLM API Key | 是 |
 | `X_API_KEY` | X (Twitter) API Key | 否 |
 | `X_API_SECRET` | X (Twitter) API Secret | 否 |
@@ -35,7 +35,7 @@ docker build -t openclaw-discord-bot:latest .
 ```bash
 docker run -d \
   --name openclaw-discord-bot \
-  -e DISCORD_TOKEN=your_discord_token \
+  -e DISCORD_BOT_TOKEN=your_discord_token \
   -e LITELLM_API_KEY=your_api_key \
   -e X_API_KEY=your_x_api_key \
   -e X_API_SECRET=your_x_api_secret \
@@ -73,7 +73,7 @@ services:
     container_name: openclaw-discord-bot
     restart: unless-stopped
     environment:
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
       - LITELLM_API_KEY=${LITELLM_API_KEY}
       - X_API_KEY=${X_API_KEY}
       - X_API_SECRET=${X_API_SECRET}
