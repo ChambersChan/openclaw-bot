@@ -6,7 +6,7 @@ services:
     container_name: openclaw-discord-bot
     restart: unless-stopped
     environment:
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
       - LITELLM_API_KEY=${LITELLM_API_KEY}
       - X_API_KEY=${X_API_KEY}
       - X_API_SECRET=${X_API_SECRET}
