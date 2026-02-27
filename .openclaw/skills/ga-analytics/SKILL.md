@@ -7,12 +7,6 @@ triggers:
   - daily analytics
   - fetch analytics
 inputs:
-  ga_property_id:
-    description: GA4 Property ID
-    default: ""
-  ga_credentials_base64:
-    description: Base64 encoded Service Account JSON credentials
-    default: ""
   discord_channel:
     description: Discord channel ID to send reports
     default: ""
@@ -25,12 +19,18 @@ inputs:
 
 Fetch Google Analytics 4 data, compare with 7 days ago, and generate growth insights.
 
-## Variables
+## Environment Variables (Pre-configured)
+
+The following environment variables are already set in the container:
+- `GA_PROPERTY_ID` - GA4 Property ID
+- `GA_CREDENTIALS_BASE64` - Base64 encoded Service Account JSON
+
+**You do NOT need to set these manually. Just run the script.**
+
+## Inputs
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `ga_property_id` | `""` | GA4 Property ID |
-| `ga_credentials_base64` | `""` | Base64 encoded credentials |
 | `discord_channel` | `""` | Discord channel for reports |
 | `site_url` | `""` | Website URL |
 
@@ -38,13 +38,13 @@ Fetch Google Analytics 4 data, compare with 7 days ago, and generate growth insi
 
 ### 1. Fetch GA Data
 
-Run the analytics script:
+Run the analytics script directly (environment variables are already configured):
 
 ```bash
 node /root/.openclaw/workspace/skills/ga-analytics/scripts/fetch-ga.cjs
 ```
 
-The script will output JSON with:
+The script will automatically read `GA_PROPERTY_ID` and `GA_CREDENTIALS_BASE64` from environment and output JSON with:
 - Yesterday's metrics
 - 7 days ago metrics (for comparison)
 - Week-over-week change percentages
@@ -59,7 +59,7 @@ Based on the fetched data, analyze:
 - Which channels are driving growth?
 
 **User Behavior:**
-- Are users engaged? (engagement rate, session duration)
+- Are users engaged?
 - What content resonates most?
 
 **Growth Opportunities:**
@@ -101,7 +101,7 @@ Write ONE actionable growth suggestion based on the data. Focus on:
 🆕 New Users: [X] ([↑/↓ Y%])
 
 🔝 Top Traffic Sources:
-1. [Source] - [X] users ([↑/↓ Y%])
+1. [Source] - [X] users
 2. [Source] - [X] users
 3. [Source] - [X] users
 
@@ -123,11 +123,6 @@ If GA API fails:
 ❌ Failed to fetch GA analytics data.
 
 Error: [error message]
-
-Please check:
-1. GA_PROPERTY_ID is correct
-2. GA_CREDENTIALS_BASE64 is valid
-3. Service Account has access to GA property
 ```
 
 ## Notes
