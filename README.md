@@ -205,7 +205,6 @@ Bot 只在消息包含指定关键词时响应：
 openclaw-discord-bot/
 ├── start.sh                    # 容器启动脚本
 ├── Dockerfile                  # Docker 构建文件
-├── docker-compose.yml          # Docker Compose 配置
 ├── docker-compose.example.yml  # Docker Compose 配置模板
 ├── .env.example                # 环境变量模板
 ├── openclaw.json               # OpenClaw 配置
