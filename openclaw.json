@@ -7,7 +7,7 @@
       "token": "${DISCORD_BOT_TOKEN}",
       "enabled": true,
       "groupPolicy": "open",
-      "allowFrom": ["978510023904854047"],
+      "allowFrom": ["*"],
       "streaming": "partial",
       "ackReaction": "👀",
       "replyToMode": "first",
@@ -23,7 +23,7 @@
   },
   "commands": {
     "allowFrom": {
-      "discord": ["978510023904854047"]
+      "discord": ["*"]
     }
   },
     "models": {
@@ -60,7 +60,7 @@
     "elevated": {
       "enabled": false,
       "allowFrom": {
-        "discord": ["978510023904854047"]
+        "discord": ["*"]
       }
     }
   },
