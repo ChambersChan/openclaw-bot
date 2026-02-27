@@ -6,8 +6,12 @@ services:
     container_name: openclaw-discord-bot
     restart: unless-stopped
     environment:
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
       - LITELLM_API_KEY=${LITELLM_API_KEY}
+      - X_API_KEY=${X_API_KEY}
+      - X_API_SECRET=${X_API_SECRET}
+      - X_ACCESS_TOKEN=${X_ACCESS_TOKEN}
+      - X_ACCESS_SECRET=${X_ACCESS_SECRET}
     volumes:
       # 项目目录 (根据需要添加)
       # - /path/to/your/project:/workspace/project

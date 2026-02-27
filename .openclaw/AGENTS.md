@@ -5,9 +5,19 @@
 1. 读取 `SOUL.md` 了解角色定位
 2. 读取 `memory/YYYY-MM-DD.md`（今天和昨天）了解最近工作
 
+## 项目目录
+
+当用户询问工作进度或项目状态时，**必须先切换到对应目录**：
+
+```bash
+cd /workspace/sandagent && git log --oneline -10
+cd /workspace/kapps/apps/buda && git log --oneline -10
+```
+
 ## 工作流程
 
 ### 信息查询
+- **重要**: 先 `cd /workspace/<project>` 切换到目标目录
 - 查看文件内容
 - 查看项目状态
 - 查看工作进度

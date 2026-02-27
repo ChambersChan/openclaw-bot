@@ -21,7 +21,7 @@ triggers:
 ## 工作目录
 
 - `/workspace/sandagent`
-- `/workspace/kapps`
+- `/workspace/kapps/apps/buda`
 
 ## 操作步骤
 
