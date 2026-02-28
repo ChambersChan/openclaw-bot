@@ -35,10 +35,6 @@ Auto-post daily development progress to X (Twitter).
 | `site_url` | `""` | Website URL |
 | `hashtag` | `""` | Hashtag for tweet |
 
-## Environment
-
-- `GIT_USER_NAME` - used for git author filter
-
 ## Working Directory
 
 - `~/.openclaw/workspace/projects/{{project}}`
@@ -55,7 +51,7 @@ git fetch origin {{branch}}
 ### 2. Get Today's Git Log
 
 ```bash
-git log origin/{{branch}} --author="$GIT_USER_NAME" --since="1 day ago" --oneline --no-merges
+git log origin/{{branch}} --since="1 day ago" --oneline --no-merges
 ```
 
 ### 3. Compare with Yesterday's Log
@@ -186,7 +182,7 @@ Error: [error message]
 
 ```bash
 cd ~/.openclaw/workspace/projects/{{project}}
-git log origin/{{branch}} --author="$GIT_USER_NAME" --since="1 day ago" --oneline --no-merges > ~/.openclaw/.daily-tweet-last-log.txt
+git log origin/{{branch}} --since="1 day ago" --oneline --no-merges > ~/.openclaw/.daily-tweet-last-log.txt
 ```
 
 ## Tweet Guidelines
