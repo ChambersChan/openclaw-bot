@@ -1,0 +1,36 @@
+name: discord-openclaw
+
+services:
+  discord-openclaw:
+    build: .
+    image: discord-openclaw:latest
+    container_name: discord-openclaw
+    restart: unless-stopped
+    environment:
+      # ============================================
+      # 基础配置
+      # ============================================
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+      - LITELLM_API_KEY=${LITELLM_API_KEY}
+
+      # ============================================
+      # GitHub 配置（云端自主工作需要）
+      # ============================================
+      # GitHub Personal Access Token（需要 repo 权限）
+      - GH_TOKEN=${GH_TOKEN:-}
+      # Git 用户信息
+      - GIT_USER_NAME=${GIT_USER_NAME:-OpenClaw Bot}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-bot@openclaw.dev}
+
+      # ============================================
+      # 其他服务配置
+      # ============================================
+      - X_API_KEY=${X_API_KEY}
+      - X_API_SECRET=${X_API_SECRET}
+      - X_ACCESS_TOKEN=${X_ACCESS_TOKEN}
+      - X_ACCESS_SECRET=${X_ACCESS_SECRET}
+      - GA_PROPERTY_ID=${GA_PROPERTY_ID}
+      - GA_CREDENTIALS_BASE64=${GA_CREDENTIALS_BASE64}
+    volumes:
+      # OpenClaw 数据目录（持久化 skills、记忆等）
+      - ./.data:/root/.openclaw
