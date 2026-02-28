@@ -9,9 +9,17 @@
 
 ## 准备工作
 
+### 1. 配置 OpenClaw
+
 查阅 `.openclaw/` 目录下的文件，对应调整自身定位，如自定义 IDENTITY.md 名称、更新 USER.md 项目信息和负责事项等
 
-### 环境变量
+### 2. 环境变量
+
+```bash
+cp .env.example .env
+```
+
+编辑 `.env` 文件，填入你的配置：
 
 | 变量名 | 说明 | 必填 |
 |--------|------|------|
@@ -26,6 +34,56 @@
 | `X_ACCESS_SECRET` | X (Twitter) Access Token Secret | 否 |
 
 > *云端自主工作必需。GH_TOKEN 需要 `repo` 和 `workflow` 权限。
+
+### 3. Git 配置
+
+配置 Git 相关环境变量，用于 AI 自主提交代码：
+
+```bash
+# GitHub Personal Access Token
+# 从 GitHub Settings > Developer settings > Personal access tokens > Tokens (classic) 获取
+# 需要权限: repo, workflow
+GH_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
+
+# Git 提交信息
+GIT_USER_NAME=Your Name
+GIT_USER_EMAIL=your@email.com
+```
+
+## 配置 Coding 能力
+
+### 拉取 GitHub 项目
+
+在 Discord 中让 Bot 拉取你的 GitHub 项目：
+
+```
+帮我 clone 项目 https://github.com/your-org/your-repo
+```
+
+Bot 会使用 `gh repo clone` 命令将项目克隆到工作区的 `~/.openclaw/workspace/projects/` 目录下。
+
+### 工作流程
+
+1. 拉取项目后，Bot 可以在该项目上进行开发工作
+2. 完成修改后，Bot 会自动 commit 并 push 到远程仓库
+3. 可以让 Bot 创建 PR 进行代码审查
+
+## 快速开始
+
+## 使用 Docker Compose（推荐）
+
+```bash
+docker-compose up -d --build
+```
+
+> **注意**: Docker Compose 会自动读取当前目录下的 `.env` 文件。
+
+### 验证运行
+
+```bash
+# 查看日志
+docker logs -f discord-openclaw
+```
 
 ## 使用 Docker 镜像
 
@@ -56,47 +114,6 @@ docker run -d \
 | `./.data` | `/root/.openclaw` | OpenClaw 数据目录（包含 projects、skills） |
 
 > 容器会自动 clone 项目到 `~/.openclaw/workspace/projects/`，无需手动挂载项目目录。
-
-### 使用 Docker Compose
-
-1. 复制环境变量文件：
-
-```bash
-cp .env.example .env
-# 编辑 .env 填入真实的 Token 和 Key
-```
-
-2. 启动：
-
-```bash
-docker-compose up -d --build
-```
-
-> **注意**: Docker Compose 会自动读取当前目录下的 `.env` 文件。
-
-## 本地开发
-
-### 安装 OpenClaw (全局)
-
-```bash
-npm install -g openclaw
-```
-
-### 配置环境变量
-
-```bash
-# 复制示例配置文件
-cp .env.example .env
-
-# 编辑 .env 文件，填入真实的 Token 和 API Key
-vim .env
-```
-
-### 启动 Bot
-
-```bash
-openclaw gateway run
-```
 
 ## 常用命令
 
