@@ -17,10 +17,15 @@
 |--------|------|------|
 | `DISCORD_BOT_TOKEN` | Discord Bot Token | 是 |
 | `LITELLM_API_KEY` | LiteLLM API Key | 是 |
+| `GH_TOKEN` | GitHub Personal Access Token | 是* |
+| `GIT_USER_NAME` | Git 用户名 | 是* |
+| `GIT_USER_EMAIL` | Git 邮箱 | 是* |
 | `X_API_KEY` | X (Twitter) API Key | 否 |
 | `X_API_SECRET` | X (Twitter) API Secret | 否 |
 | `X_ACCESS_TOKEN` | X (Twitter) Access Token | 否 |
 | `X_ACCESS_SECRET` | X (Twitter) Access Token Secret | 否 |
+
+> *云端自主工作必需。GH_TOKEN 需要 `repo` 和 `workflow` 权限。
 
 ## 使用 Docker 镜像
 
@@ -37,12 +42,9 @@ docker run -d \
   --name openclaw-discord-bot \
   -e DISCORD_BOT_TOKEN=your_discord_token \
   -e LITELLM_API_KEY=your_api_key \
-  -e X_API_KEY=your_x_api_key \
-  -e X_API_SECRET=your_x_api_secret \
-  -e X_ACCESS_TOKEN=your_x_access_token \
-  -e X_ACCESS_SECRET=your_x_access_secret \
-  -v /path/to/project1:/workspace/project1 \
-  -v /path/to/project2:/workspace/project2 \
+  -e GH_TOKEN=your_github_token \
+  -e GIT_USER_NAME="Your Name" \
+  -e GIT_USER_EMAIL="your@email.com" \
   -v $(pwd)/.data:/root/.openclaw \
   openclaw-discord-bot:latest
 ```
@@ -51,41 +53,20 @@ docker run -d \
 
 | 主机路径 | 容器路径 | 说明 |
 |----------|----------|------|
-| `/path/to/project` | `/workspace/project` | 项目目录 (根据需要添加) |
-| `./.data` | `/root/.openclaw` | OpenClaw 数据目录 |
+| `./.data` | `/root/.openclaw` | OpenClaw 数据目录（包含 projects、skills） |
+
+> 容器会自动 clone 项目到 `~/.openclaw/workspace/projects/`，无需手动挂载项目目录。
 
 ### 使用 Docker Compose
 
-1. 复制配置文件：
+1. 复制环境变量文件：
 
 ```bash
-cp docker-compose.example.yml docker-compose.yml
-# 编辑 docker-compose.yml 添加项目目录挂载
+cp .env.example .env
+# 编辑 .env 填入真实的 Token 和 Key
 ```
 
-2. `docker-compose.yml` 示例：
-
-```yaml
-services:
-  openclaw-discord-bot:
-    build: .
-    image: openclaw-discord-bot:latest
-    container_name: openclaw-discord-bot
-    restart: unless-stopped
-    environment:
-      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
-      - LITELLM_API_KEY=${LITELLM_API_KEY}
-      - X_API_KEY=${X_API_KEY}
-      - X_API_SECRET=${X_API_SECRET}
-      - X_ACCESS_TOKEN=${X_ACCESS_TOKEN}
-      - X_ACCESS_SECRET=${X_ACCESS_SECRET}
-    volumes:
-      # 项目目录 (根据需要添加)
-      # - /path/to/your/project:/workspace/project
-      - ./.data:/root/.openclaw
-```
-
-3. 启动：
+2. 启动：
 
 ```bash
 docker-compose up -d --build
@@ -205,7 +186,7 @@ Bot 只在消息包含指定关键词时响应：
 openclaw-discord-bot/
 ├── start.sh                    # 容器启动脚本
 ├── Dockerfile                  # Docker 构建文件
-├── docker-compose.example.yml  # Docker Compose 配置模板
+├── docker-compose.yml          # Docker Compose 配置
 ├── .env.example                # 环境变量模板
 ├── openclaw.json               # OpenClaw 配置
 └── .openclaw/                  # OpenClaw 工作区模板
@@ -220,7 +201,9 @@ openclaw-discord-bot/
 **容器内工作区结构:**
 
 ```
-/workspace/               # OpenClaw cwd
-├── project1/             # 项目目录
-└── project2/             # 项目目录
+~/.openclaw/
+├── workspace/
+│   ├── projects/               # clone 的项目
+│   └── skills/                 # 安装的 skills
+└── cron/                       # 定时任务
 ```

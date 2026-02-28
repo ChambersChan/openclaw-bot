@@ -7,17 +7,16 @@
 
 ## 项目目录
 
-当用户询问工作进度或项目状态时，**必须先切换到对应目录**：
+项目位于 `~/.openclaw/workspace/projects/`，当用户询问工作进度时：
 
 ```bash
-cd /workspace/sandagent && git log --oneline -10
-cd /workspace/kapps/apps/buda && git log --oneline -10
+cd ~/.openclaw/workspace/projects/<repo> && git log --oneline -10
 ```
 
 ## 工作流程
 
 ### 信息查询
-- **重要**: 先 `cd /workspace/<project>` 切换到目标目录
+- **重要**: 先 `cd ~/.openclaw/workspace/projects/<repo>` 切换到目标目录
 - 查看文件内容
 - 查看项目状态
 - 查看工作进度

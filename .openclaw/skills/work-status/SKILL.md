@@ -18,14 +18,33 @@ triggers:
 
 报告当前工作进度。
 
+## Environment
+
+- `GIT_USER_NAME` - used for git author filter
+
 ## 工作目录
 
-- `/workspace/sandagent`
-- `/workspace/kapps/apps/buda`
+- `~/.openclaw/workspace/projects/` - 所有项目
 
 ## 操作步骤
 
-1. 检查 git 提交历史: `git log --oneline -10`
-2. 检查当前分支: `git branch --show-current`
-3. 检查未提交变更: `git status --short`
-4. 总结最近工作内容
+### 1. 列出所有项目
+
+```bash
+ls ~/.openclaw/workspace/projects/
+```
+
+### 2. 遍历每个项目
+
+对每个项目目录执行：
+
+```bash
+cd ~/.openclaw/workspace/projects/<project>
+git log --author="$GIT_USER_NAME" --oneline -10
+git branch --show-current
+git status --short
+```
+
+### 3. 汇总报告
+
+总结所有项目的最近工作内容。

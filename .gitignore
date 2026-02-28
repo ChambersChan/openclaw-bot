@@ -6,7 +6,6 @@ node_modules/
 
 # 环境变量
 .env
-docker-compose.yml
 
 # Claude Code
 .claude/

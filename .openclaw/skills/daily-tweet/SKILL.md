@@ -5,15 +5,9 @@ triggers:
   - daily tweet
   - post tweet
 inputs:
-  git_author:
-    description: Git author name to filter commits
+  project:
+    description: Project name (repo will be at ~/.openclaw/workspace/projects/{project})
     default: ""
-  repo_path:
-    description: Path to repository (relative to working_dir)
-    default: ""
-  remote:
-    description: Git remote name
-    default: "origin"
   branch:
     description: Git branch to check
     default: "main"
@@ -36,30 +30,28 @@ Auto-post daily development progress to X (Twitter).
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `git_author` | `""` | Git author name to filter |
-| `repo_path` | `""` | Path to repository |
-| `remote` | `origin` | Git remote name |
+| `project` | `""` | Project name |
 | `branch` | `main` | Git branch to check |
 | `site_url` | `""` | Website URL |
 | `hashtag` | `""` | Hashtag for tweet |
 
 ## Working Directory
 
-- `{{repo_path}}`
+- `~/.openclaw/workspace/projects/{{project}}`
 
 ## Execution Steps
 
 ### 1. Fetch Latest Code
 
 ```bash
-cd {{repo_path}}
-git fetch {{remote}} {{branch}}
+cd ~/.openclaw/workspace/projects/{{project}}
+git fetch origin {{branch}}
 ```
 
 ### 2. Get Today's Git Log
 
 ```bash
-git log {{remote}}/{{branch}} --author="{{git_author}}" --since="1 day ago" --oneline --no-merges
+git log origin/{{branch}} --since="1 day ago" --oneline --no-merges
 ```
 
 ### 3. Compare with Yesterday's Log
@@ -189,7 +181,8 @@ Error: [error message]
 ### 7. Save Today's Log
 
 ```bash
-git log {{remote}}/{{branch}} --author="{{git_author}}" --since="1 day ago" --oneline --no-merges > ~/.openclaw/.daily-tweet-last-log.txt
+cd ~/.openclaw/workspace/projects/{{project}}
+git log origin/{{branch}} --since="1 day ago" --oneline --no-merges > ~/.openclaw/.daily-tweet-last-log.txt
 ```
 
 ## Tweet Guidelines
