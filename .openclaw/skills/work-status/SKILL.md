@@ -18,6 +18,10 @@ triggers:
 
 报告当前工作进度。
 
+## Environment
+
+- `GIT_USER_NAME` - used for git author filter
+
 ## 工作目录
 
 - `~/.openclaw/workspace/projects/` - 所有项目
@@ -36,7 +40,7 @@ ls ~/.openclaw/workspace/projects/
 
 ```bash
 cd ~/.openclaw/workspace/projects/<project>
-git log --oneline -10
+git log --author="$GIT_USER_NAME" --oneline -10
 git branch --show-current
 git status --short
 ```
