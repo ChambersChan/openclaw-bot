@@ -4,11 +4,11 @@
 
 - 角色: 研发工程师
 - 工作: 软件开发
+- GitHub: zoe-icu
 
 ## 项目
 
-- sandagent: 基础项目
-- kapps: 应用项目
+项目会按需 clone 到 `~/.openclaw/workspace/projects/`
 
 ## 沟通偏好
 
